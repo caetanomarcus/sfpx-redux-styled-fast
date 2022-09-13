@@ -2,5 +2,5 @@
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/spfx-serve.schema.json",
   "port": 4321,
   "https": true,
-  "initialPage": "https://impardevsistemas.sharepoint.com/sites/val-1062-planodiretor"
+  "initialPage": "https://impardevsistemas.sharepoint.com/sites/val-1062-planodiretor/_layouts/workbench.aspx"
 }
