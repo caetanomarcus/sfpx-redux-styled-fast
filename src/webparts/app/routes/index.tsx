@@ -3,21 +3,8 @@ import * as React from 'react';
 import Home from '../pages/Home';
 import Sobre from '../pages/Sobre';
 import { IAppProps } from '../interfaces/IAppProps';
-import {  useSelector } from 'react-redux';
-import { IModuloItemsFormated } from '../interfaces/IModuloItems';
-import { RootState } from '../../../dataflow/store';
 
-
-const RoutesApp = (props: IAppProps) => { 
-  const moduloStateGlobal: IModuloItemsFormated[] = useSelector((state: RootState) => state.state);
-
-  
-  React.useEffect(() => {
-    if(moduloStateGlobal){
-      console.log(moduloStateGlobal)
-    }
-  }, []);
-
+const RoutesApp = (props: IAppProps) => {
   return (
     <BrowserRouter>
       <HashRouter>

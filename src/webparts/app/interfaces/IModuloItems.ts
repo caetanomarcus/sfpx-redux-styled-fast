@@ -30,7 +30,4 @@ export interface IModuloItemsFormated {
   ConteudoTema: string;
 }
 
-export type IModuloInput = Pick<IModuloItemsFormated, 'ConteudoTema' | 'Nome' >
-
-
-
+export type IModuloInput = Pick<IModuloItemsFormated, 'ConteudoTema' | 'Nome'>;

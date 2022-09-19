@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
-import { Version } from '@microsoft/sp-core-library';
 import { IPropertyPaneConfiguration, IPropertyPaneDropdownOption, PropertyPaneDropdown, PropertyPaneTextField } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 
@@ -15,9 +14,6 @@ export interface IAppWebPartProps {
 }
 
 export default class AppWebPart extends BaseClientSideWebPart<IAppWebPartProps> {
-  private lists: IPropertyPaneDropdownOption[];
-  private listsDropdownDisabled: boolean = true;
-
   protected onInit(): Promise<void> {
     return super.onInit().then(() => {
       sp.setup({
@@ -26,45 +22,9 @@ export default class AppWebPart extends BaseClientSideWebPart<IAppWebPartProps> 
     });
   }
 
-  private async loadLists(): Promise<IPropertyPaneDropdownOption[]> {
-    const listOptions = await sp.web.lists.orderBy('Title').select('Title').get();
-    const propertyPaneDropdownOptions = listOptions.map((item) => {
-      return {
-        key: item.Title,
-        text: item.Title,
-      };
-    });
-
-    return propertyPaneDropdownOptions;
-  }
-
-  protected onPropertyPaneConfigurationStart(): void {
-    this.listsDropdownDisabled = !this.lists;
-
-    if (this.lists) {
-      return;
-    }
-
-    this.context.statusRenderer.displayLoadingIndicator(this.domElement, 'lists');
-
-    this.loadLists().then(
-      (listOptions: IPropertyPaneDropdownOption[]): void => {
-        this.lists = listOptions;
-        this.listsDropdownDisabled = false;
-        this.context.propertyPane.refresh();
-        this.context.statusRenderer.clearLoadingIndicator(this.domElement);
-        this.render();
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
-  }
-
   public render(): void {
     const element: React.ReactElement<IAppProps> = React.createElement(App, {
       description: this.properties.description,
-      moduloList: this.properties.moduloList,
       context: this.context,
     });
 
@@ -88,11 +48,6 @@ export default class AppWebPart extends BaseClientSideWebPart<IAppWebPartProps> 
               groupFields: [
                 PropertyPaneTextField('description', {
                   label: strings.DescriptionFieldLabel,
-                }),
-                PropertyPaneDropdown('transactionsList', {
-                  label: strings.ModuloListFieldLabel,
-                  options: this.lists,
-                  disabled: this.listsDropdownDisabled,
                 }),
               ],
             },

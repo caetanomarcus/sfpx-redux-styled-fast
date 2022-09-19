@@ -4,45 +4,36 @@ import { IAppProps } from '../../interfaces/IAppProps';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../dataflow/store';
-import {  IModuloItemsFormated } from '../../interfaces/IModuloItems';
-import { createModulos } from '../../hooks/useModulos';
+import { IModuloItemsFormated } from '../../interfaces/IModuloItems';
+import { ModuloClassService } from '../../../app/services/ModuloClassServices';
 
 const Home: React.FC<IAppProps> = (props): JSX.Element => {
   const moduloStateGlobal: IModuloItemsFormated[] = useSelector((state: RootState) => state.state);
-  console.log('moduloStateGlobalRedux', moduloStateGlobal);
+  const moduloService = new ModuloClassService();
+  console.log('moduloStateGlobal', moduloStateGlobal);
 
+  const handleSaveTeste = () => {
+    moduloService.createModulos({
+      ConteudoTema: 'sasadsdsdsds',
+      // Icone: "sasas",
+      // Author: datalook,
+      // Corredor: [{Id: 1}],
+      Nome: `${Math.random().toString(36).substr(2, 9)}`,
+    });
+  };
 
-  const handleSaveTeste=  ()=>{
-  //  try {
-  //    createModulos({
-  //     ConteudoTema: "sasadsdsdsds",
-  //     // Icone: "sasas",
-  //    // Author: datalook,
-  //     // Corredor: [{Id: 1}],
-  //     Nome: `${Math.random().toString(36).substr(2, 9)}`
-  //   })
-    
-  //  } catch (error) {
-  //   console.log(error)
-  //  }
-  }
-
-  // const teste = async ()=>{
-  //   await getAllModulos();   
-
-  // }
-  
-
-  // useEffect(() => {
-  //   teste()
-  // }, []);
+  useEffect(() => {
+    if (moduloStateGlobal.length < 1) {
+      console.log('Zero burrice');
+      moduloService.getAllModulos();
+    }
+  }, []);
 
   return (
     <>
       <div>
         <Link to="/sobre">sobre</Link>
-       <button onClick={()=> handleSaveTeste()}>SaveListModulo</button>
-
+        <button onClick={() => handleSaveTeste()}>SaveListModulo</button>
       </div>
       <div>
         {moduloStateGlobal &&

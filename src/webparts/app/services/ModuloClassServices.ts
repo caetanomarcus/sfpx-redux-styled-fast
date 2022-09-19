@@ -1,15 +1,20 @@
 import { sp } from '@pnp/sp/presets/all';
+import { AnyAction, Dispatch } from '@reduxjs/toolkit';
+import { useDispatch } from 'react-redux';
+import { itemsAddModulo } from '../../../dataflow/reducers';
 import { IModuloInput, IModuloItems, IModuloItemsFormated } from '../interfaces/IModuloItems';
 import { mapGetItems } from '../repositories/Modulo';
 
 export class ModuloClassService {
   private _list: string;
+  private _dispatch: Dispatch<AnyAction>;
 
-  constructor(listName: string) {
-    this._list = listName;
+  constructor() {
+    this._list = 'Modulo';
+    this._dispatch = useDispatch();
   }
 
-  public getAllModulo = async (isAscending = false) => {
+  public getItemsAllModulo = async (isAscending = false) => {
     const result: IModuloItems[] = await sp.web.lists
       .getByTitle(this._list)
       .items.select(
@@ -32,7 +37,7 @@ export class ModuloClassService {
   };
 
   // Rota utilizada para obtenção de quantidade limitada de modulos
-  public getWithLimit = async (top: number = 100, isAscending = false) => {
+  public getItemsWithLimit = async (top: number = 100, isAscending = false) => {
     const result: IModuloItems[] = await sp.web.lists
       .getByTitle(this._list)
       .items.select(
@@ -66,7 +71,40 @@ export class ModuloClassService {
   };
 
   // Rota utilizada para deletar um modulo
-  public deleteModulon = async (id: number) => {
+  public deleteModulo = async (id: number) => {
     await sp.web.lists.getByTitle(this._list).items.getById(id).delete();
+  };
+
+  public getAllModulos = (isAscending?: boolean) => {
+    this.getItemsAllModulo(isAscending)
+      .then((result) => {
+        result.map((item) => {
+          this._dispatch(itemsAddModulo(item));
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  public createModulos = (moduloInput: IModuloInput) => {
+    this.addModulo(moduloInput)
+      .then((response) => {
+        const modulo: IModuloItemsFormated = {
+          Id: response.Id,
+          Nome: response.Nome,
+          Created: response.Created,
+          Modified: response.Modified,
+          FkCorredorId: response.FkCorredorId,
+          Author: response.Author,
+          Icone: response.Icone,
+          Corredor: response.Corredor,
+          ConteudoTema: response.ConteudoTema,
+        };
+        this._dispatch(itemsAddModulo(modulo));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 }

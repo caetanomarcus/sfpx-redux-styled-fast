@@ -11,7 +11,7 @@ export const mapGetItems = (items: IModuloItems[]) => {
       Author: item.Author.Title,
       Icone: item.Icone,
       Corredor: item.Corredor,
-      ConteudoTema: item.ConteudoTema
+      ConteudoTema: item.ConteudoTema,
     });
   });
 
