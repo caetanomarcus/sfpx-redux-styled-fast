@@ -6,6 +6,7 @@ declare interface IAppWebPartStrings {
   AppLocalEnvironmentTeams: string;
   AppSharePointEnvironment: string;
   AppTeamsTabEnvironment: string;
+  ModuloListFieldLabel: string;
 }
 
 declare module 'AppWebPartStrings' {

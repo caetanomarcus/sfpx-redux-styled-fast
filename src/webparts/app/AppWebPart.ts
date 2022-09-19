@@ -1,79 +1,78 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
 import { Version } from '@microsoft/sp-core-library';
-import {
-  IPropertyPaneConfiguration,
-  PropertyPaneTextField
-} from '@microsoft/sp-property-pane';
+import { IPropertyPaneConfiguration, IPropertyPaneDropdownOption, PropertyPaneDropdown, PropertyPaneTextField } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
-import { IReadonlyTheme } from '@microsoft/sp-component-base';
 
 import * as strings from 'AppWebPartStrings';
-import App from './components/App';
-import { IAppProps } from './components/IAppProps';
+import App from '../app/App';
+import { IAppProps } from '../app/interfaces/IAppProps';
+import { sp } from '@pnp/sp';
 
 export interface IAppWebPartProps {
   description: string;
+  moduloList: any;
 }
 
 export default class AppWebPart extends BaseClientSideWebPart<IAppWebPartProps> {
+  private lists: IPropertyPaneDropdownOption[];
+  private listsDropdownDisabled: boolean = true;
 
-  private _isDarkTheme: boolean = false;
-  private _environmentMessage: string = '';
+  protected onInit(): Promise<void> {
+    return super.onInit().then(() => {
+      sp.setup({
+        spfxContext: this.context,
+      });
+    });
+  }
 
-  public render(): void {
-    const element: React.ReactElement<IAppProps> = React.createElement(
-      App,
-      {
-        description: this.properties.description,
-        isDarkTheme: this._isDarkTheme,
-        environmentMessage: this._environmentMessage,
-        hasTeamsContext: !!this.context.sdks.microsoftTeams,
-        userDisplayName: this.context.pageContext.user.displayName
+  private async loadLists(): Promise<IPropertyPaneDropdownOption[]> {
+    const listOptions = await sp.web.lists.orderBy('Title').select('Title').get();
+    const propertyPaneDropdownOptions = listOptions.map((item) => {
+      return {
+        key: item.Title,
+        text: item.Title,
+      };
+    });
+
+    return propertyPaneDropdownOptions;
+  }
+
+  protected onPropertyPaneConfigurationStart(): void {
+    this.listsDropdownDisabled = !this.lists;
+
+    if (this.lists) {
+      return;
+    }
+
+    this.context.statusRenderer.displayLoadingIndicator(this.domElement, 'lists');
+
+    this.loadLists().then(
+      (listOptions: IPropertyPaneDropdownOption[]): void => {
+        this.lists = listOptions;
+        this.listsDropdownDisabled = false;
+        this.context.propertyPane.refresh();
+        this.context.statusRenderer.clearLoadingIndicator(this.domElement);
+        this.render();
+      },
+      (err) => {
+        console.log(err);
       }
     );
+  }
+
+  public render(): void {
+    const element: React.ReactElement<IAppProps> = React.createElement(App, {
+      description: this.properties.description,
+      moduloList: this.properties.moduloList,
+      context: this.context,
+    });
 
     ReactDom.render(element, this.domElement);
   }
 
-  protected onInit(): Promise<void> {
-    this._environmentMessage = this._getEnvironmentMessage();
-
-    return super.onInit();
-  }
-
-  private _getEnvironmentMessage(): string {
-    if (!!this.context.sdks.microsoftTeams) { // running in Teams
-      return this.context.isServedFromLocalhost ? strings.AppLocalEnvironmentTeams : strings.AppTeamsTabEnvironment;
-    }
-
-    return this.context.isServedFromLocalhost ? strings.AppLocalEnvironmentSharePoint : strings.AppSharePointEnvironment;
-  }
-
-  protected onThemeChanged(currentTheme: IReadonlyTheme | undefined): void {
-    if (!currentTheme) {
-      return;
-    }
-
-    this._isDarkTheme = !!currentTheme.isInverted;
-    const {
-      semanticColors
-    } = currentTheme;
-
-    if (semanticColors) {
-      this.domElement.style.setProperty('--bodyText', semanticColors.bodyText || null);
-      this.domElement.style.setProperty('--link', semanticColors.link || null);
-      this.domElement.style.setProperty('--linkHovered', semanticColors.linkHovered || null);
-    }
-
-  }
-
   protected onDispose(): void {
     ReactDom.unmountComponentAtNode(this.domElement);
-  }
-
-  protected get dataVersion(): Version {
-    return Version.parse('1.0');
   }
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
@@ -81,20 +80,25 @@ export default class AppWebPart extends BaseClientSideWebPart<IAppWebPartProps> 
       pages: [
         {
           header: {
-            description: strings.PropertyPaneDescription
+            description: strings.PropertyPaneDescription,
           },
           groups: [
             {
               groupName: strings.BasicGroupName,
               groupFields: [
                 PropertyPaneTextField('description', {
-                  label: strings.DescriptionFieldLabel
-                })
-              ]
-            }
-          ]
-        }
-      ]
+                  label: strings.DescriptionFieldLabel,
+                }),
+                PropertyPaneDropdown('transactionsList', {
+                  label: strings.ModuloListFieldLabel,
+                  options: this.lists,
+                  disabled: this.listsDropdownDisabled,
+                }),
+              ],
+            },
+          ],
+        },
+      ],
     };
   }
 }
