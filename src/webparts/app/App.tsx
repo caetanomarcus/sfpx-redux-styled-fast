@@ -4,6 +4,8 @@ import { Provider } from 'react-redux';
 import store from '../../dataflow/store';
 import RoutesApp from '../app/routes';
 
+import "../app/Global/index.css"
+
 const App = (props: IAppProps) => {
   return (
     <>
