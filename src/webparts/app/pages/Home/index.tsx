@@ -1,18 +1,18 @@
 import * as React from 'react';
-import { useEffect } from 'react';
 import { IAppProps } from '../../interfaces/IAppProps';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../../dataflow/store';
 import { IModuloItemsFormated } from '../../interfaces/IModuloItems';
 import { ModuloClassService } from '../../../app/services/ModuloClassServices';
+import { useAppSelector } from '../../../../dataflow/hooks';
+import { GroupsPermissionString, ISiteCurrentUser } from '../../interfaces/IUserInfo';
 
 const Home: React.FC<IAppProps> = (props): JSX.Element => {
-  const moduloStateGlobal: IModuloItemsFormated[] = useSelector((state: RootState) => state.state);
   const moduloService = new ModuloClassService();
-  console.log('moduloStateGlobal', moduloStateGlobal);
+  const moduloStateGlobal: IModuloItemsFormated[] = useAppSelector((state) => state.state.listModulo);
+  const isCurrentUserAdminValue = useAppSelector((state) => state.stateIsPermission.isValuePermission);
 
-  const handleSaveTeste = () => {
+
+  const handlerSave = () => {
     moduloService.createModulos({
       ConteudoTema: 'sasadsdsdsds',
       // Icone: "sasas",
@@ -22,25 +22,21 @@ const Home: React.FC<IAppProps> = (props): JSX.Element => {
     });
   };
 
-  useEffect(() => {
-    if (moduloStateGlobal.length < 1) {
-      console.log('Zero burrice');
-      moduloService.getAllModulos();
-    }
-  }, []);
 
   return (
     <>
       <div>
         <Link to="/sobre">sobre</Link>
-        <button onClick={() => handleSaveTeste()}>SaveListModulo</button>
+        {isCurrentUserAdminValue && (
+          <button onClick={() => handlerSave()}>SaveListModulo</button>
+        )}
       </div>
       <div>
         {moduloStateGlobal &&
           moduloStateGlobal.length > 0 &&
           moduloStateGlobal.map((item) => (
             <>
-              <img src={item.Icone} alt="logo" />
+              <img src={item.Icone ? item.Icone.serverRelativeUrl : ''} alt="logo" style={{ width: '100px' }} />
               <h4>{item.Author}</h4>
             </>
           ))}

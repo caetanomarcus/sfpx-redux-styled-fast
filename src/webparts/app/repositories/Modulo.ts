@@ -1,6 +1,6 @@
 import { IModuloItems, IModuloItemsFormated } from '../interfaces/IModuloItems';
 
-export const mapGetItems = (items: IModuloItems[]) => {
+export const mapGetItemsModulo = (items: IModuloItems[]) => {
   const mappedModulo: IModuloItemsFormated[] = [];
   items.forEach((item) => {
     mappedModulo.push({
@@ -9,7 +9,7 @@ export const mapGetItems = (items: IModuloItems[]) => {
       Created: item.Created,
       Modified: item.Modified,
       Author: item.Author.Title,
-      Icone: item.Icone,
+      Icone: JSON.parse(item.Icone),
       Corredor: item.Corredor,
       ConteudoTema: item.ConteudoTema,
     });

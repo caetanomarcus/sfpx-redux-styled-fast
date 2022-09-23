@@ -1,5 +1,6 @@
 export interface ICorredor {
   Id?: number;
+  Nome: string;
   Created?: string;
   Modified?: string;
 }
@@ -13,19 +14,23 @@ export interface IModuloItems {
   Author: {
     Title: string;
   };
-  Icone: string;
+  Icone?: string;
   Corredor?: Array<ICorredor>;
   ConteudoTema: string;
+}
+
+export interface IModuloItemImg {
+  serverRelativeUrl: string;
+  serverUrl: string;
 }
 
 export interface IModuloItemsFormated {
   Id: number;
   Nome?: string;
   Created: string;
-  FkCorredorId?: Array<number>;
   Modified: string;
   Author?: string;
-  Icone: string;
+  Icone?: IModuloItemImg;
   Corredor?: Array<ICorredor>;
   ConteudoTema: string;
 }

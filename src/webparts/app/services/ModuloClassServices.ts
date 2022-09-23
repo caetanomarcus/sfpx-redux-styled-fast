@@ -1,17 +1,16 @@
 import { sp } from '@pnp/sp/presets/all';
-import { AnyAction, Dispatch } from '@reduxjs/toolkit';
-import { useDispatch } from 'react-redux';
+import { IAnyAction, IDispatch, useAppDispatch } from '../../../dataflow/hooks';
 import { itemsAddModulo } from '../../../dataflow/reducers';
 import { IModuloInput, IModuloItems, IModuloItemsFormated } from '../interfaces/IModuloItems';
-import { mapGetItems } from '../repositories/Modulo';
+import { mapGetItemsModulo } from '../repositories/Modulo';
 
 export class ModuloClassService {
   private _list: string;
-  private _dispatch: Dispatch<AnyAction>;
+  private _dispatch: IDispatch<IAnyAction>;
 
   constructor() {
     this._list = 'Modulo';
-    this._dispatch = useDispatch();
+    this._dispatch = useAppDispatch();
   }
 
   public getItemsAllModulo = async (isAscending = false) => {
@@ -33,7 +32,7 @@ export class ModuloClassService {
       .expand('Author', 'Corredor')
       .orderBy('Created', isAscending)
       .get();
-    return mapGetItems(result);
+    return mapGetItemsModulo(result);
   };
 
   // Rota utilizada para obtenção de quantidade limitada de modulos
@@ -50,13 +49,14 @@ export class ModuloClassService {
         'Corredor/Created',
         'Corredor/Modified',
         'Corredor/Id',
+        'Corredor/Nome',
         'CorredorId',
         'ConteudoTema'
       )
       .expand('Author', 'Corredor')
       .orderBy('Created', isAscending)
       .get();
-    return mapGetItems(result);
+    return mapGetItemsModulo(result);
   };
 
   // Rota utilizada para criar novo modulo
@@ -90,12 +90,12 @@ export class ModuloClassService {
   public createModulos = (moduloInput: IModuloInput) => {
     this.addModulo(moduloInput)
       .then((response) => {
+        console.log("response", response)
         const modulo: IModuloItemsFormated = {
           Id: response.Id,
           Nome: response.Nome,
           Created: response.Created,
           Modified: response.Modified,
-          FkCorredorId: response.FkCorredorId,
           Author: response.Author,
           Icone: response.Icone,
           Corredor: response.Corredor,
