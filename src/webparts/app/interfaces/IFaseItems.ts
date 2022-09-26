@@ -11,5 +11,4 @@ export interface IFaseItems {
   Complexo?: Array<IComplexo>;
 }
 
-
-export type IFaseInput = Pick<IFaseItems, 'Id' | 'Complexo'| 'Nome' >;
+export type IFaseInput = Pick<IFaseItems, 'Id' | 'Complexo' | 'Nome'>;

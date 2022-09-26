@@ -7,7 +7,7 @@ export const mapGetItemsComplexo = (items: IComplexoItems[]) => {
       Id: item.Id,
       Nome: item.Nome,
       Created: item.Created,
-      Modified: item.Modified
+      Modified: item.Modified,
     });
   });
 

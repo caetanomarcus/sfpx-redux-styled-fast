@@ -1,4 +1,4 @@
-import { ICorredorItems } from "../interfaces/ICorredorItems";
+import { ICorredorItems } from '../interfaces/ICorredorItems';
 
 export const mapGetItemsCorredor = (items: ICorredorItems[]) => {
   const mappedCorredor: ICorredorItems[] = [];
@@ -7,7 +7,7 @@ export const mapGetItemsCorredor = (items: ICorredorItems[]) => {
       Id: item.Id,
       Nome: item.Nome,
       Created: item.Created,
-      Modified: item.Modified
+      Modified: item.Modified,
     });
   });
 

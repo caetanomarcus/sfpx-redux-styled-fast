@@ -34,11 +34,11 @@ export const state = createSlice({
   },
 });
 
-let currentUser : ISiteCurrentUser;
+let currentUser: ISiteCurrentUser;
 
 export const stateObject = createSlice({
   name: 'stateObject',
-  initialState: {currentUser},
+  initialState: { currentUser },
   reducers: {
     itemAddCurrentInfo: (state, action) => {
       state.currentUser = action.payload;
@@ -47,9 +47,9 @@ export const stateObject = createSlice({
   },
 });
 
-export const stateIsPermission= createSlice({
+export const stateIsPermission = createSlice({
   name: 'stateIsPermission',
-  initialState: { isValuePermission: false},
+  initialState: { isValuePermission: false },
   reducers: {
     isItemAddValuePermission: (state, action) => {
       state.isValuePermission = action.payload;

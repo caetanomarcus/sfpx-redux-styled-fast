@@ -6,7 +6,7 @@ export const mapGetItemsUserGroups = (groups: ISiteGroupInfo[], user?: ISiteUser
   let userFilterFormated: ISiteCurrentUser;
 
   const itemsFilterGroups = groups.filter((item) => item.Id == GroupsPermission.Administrador || item.Id === GroupsPermission.Visitantes);
-  
+
   itemsFilterGroups.forEach((item) => {
     userFilterFormated = {
       Id: user.Id,

@@ -5,7 +5,7 @@ export const store = configureStore({
   reducer: {
     state: state.reducer,
     stateObject: stateObject.reducer,
-    stateIsPermission: stateIsPermission.reducer
+    stateIsPermission: stateIsPermission.reducer,
   },
 });
 

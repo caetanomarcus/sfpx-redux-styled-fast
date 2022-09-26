@@ -5,12 +5,14 @@ import { IModuloItemsFormated } from '../../interfaces/IModuloItems';
 import { ModuloClassService } from '../../../app/services/ModuloClassServices';
 import { useAppSelector } from '../../../../dataflow/hooks';
 import { GroupsPermissionString, ISiteCurrentUser } from '../../interfaces/IUserInfo';
+import * as S from './styles';
+import Header from '../../components/Header';
+import Informative from './components/Informative';
 
 const Home: React.FC<IAppProps> = (props): JSX.Element => {
   const moduloService = new ModuloClassService();
   const moduloStateGlobal: IModuloItemsFormated[] = useAppSelector((state) => state.state.listModulo);
   const isCurrentUserAdminValue = useAppSelector((state) => state.stateIsPermission.isValuePermission);
-
 
   const handlerSave = () => {
     moduloService.createModulos({
@@ -22,25 +24,12 @@ const Home: React.FC<IAppProps> = (props): JSX.Element => {
     });
   };
 
-
   return (
     <>
-      <div>
-        <Link to="/sobre">sobre</Link>
-        {isCurrentUserAdminValue && (
-          <button onClick={() => handlerSave()}>SaveListModulo</button>
-        )}
-      </div>
-      <div>
-        {moduloStateGlobal &&
-          moduloStateGlobal.length > 0 &&
-          moduloStateGlobal.map((item) => (
-            <>
-              <img src={item.Icone ? item.Icone.serverRelativeUrl : ''} alt="logo" style={{ width: '100px' }} />
-              <h4>{item.Author}</h4>
-            </>
-          ))}
-      </div>
+      <S.Container>
+        <Header />
+        <Informative />
+      </S.Container>
     </>
   );
 };

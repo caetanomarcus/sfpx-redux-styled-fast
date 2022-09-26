@@ -5,9 +5,6 @@ export interface ICorredorItems {
   Modified?: string;
 }
 
-export enum FilterSelectCorredor {
-
-}
-
+export enum FilterSelectCorredor {}
 
 export type ICorredorInput = Pick<ICorredorItems, 'Id' | 'Created'>;

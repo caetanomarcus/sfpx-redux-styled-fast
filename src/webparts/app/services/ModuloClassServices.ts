@@ -90,7 +90,7 @@ export class ModuloClassService {
   public createModulos = (moduloInput: IModuloInput) => {
     this.addModulo(moduloInput)
       .then((response) => {
-        console.log("response", response)
+        console.log('response', response);
         const modulo: IModuloItemsFormated = {
           Id: response.Id,
           Nome: response.Nome,

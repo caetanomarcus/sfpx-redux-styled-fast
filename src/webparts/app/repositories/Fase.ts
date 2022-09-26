@@ -8,7 +8,7 @@ export const mapGetItemsFase = (items: IFaseItems[]) => {
       Nome: item.Nome,
       Complexo: item.Complexo,
       Created: item.Created,
-      Modified: item.Modified
+      Modified: item.Modified,
     });
   });
 

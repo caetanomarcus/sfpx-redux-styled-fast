@@ -21,17 +21,25 @@
       "./node_modules/@microsoft"
     ],
     "types": [
+      "es6-promise",
       "webpack-env"
     ],
     "lib": [
       "es5",
       "dom",
       "es2015.collection",
-      "es2015.promise"
+      "es2015.promise",
+      "es2016"
     ]
   },
   "include": [
     "src/**/*.ts",
-    "src/**/*.tsx"
+    "src/**/*.tsx",
+    "src/webparts/app/components", 
+    "custom.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "lib"
   ]
 }

@@ -4,7 +4,6 @@ import { itemsAddFase } from '../../../dataflow/reducers';
 import { IFaseItems } from '../interfaces/IFaseItems';
 import { mapGetItemsFase } from '../repositories/Fase';
 
-
 export class FaseClassService {
   private _list: string;
   private _dispatch: IDispatch<IAnyAction>;
@@ -17,14 +16,7 @@ export class FaseClassService {
   public getItemsAllFase = async (isAscending = false) => {
     const result: IFaseItems[] = await sp.web.lists
       .getByTitle(this._list)
-      .items.select(
-        'Id',
-        'Nome',
-        'Created',
-        'Modified',
-        'Complexo/Nome',
-        'Complexo'
-      )
+      .items.select('Id', 'Nome', 'Created', 'Modified', 'Complexo/Nome', 'Complexo')
       .expand('Complexo')
       .orderBy('Created', isAscending)
       .get();
@@ -34,19 +26,12 @@ export class FaseClassService {
   // Rota utilizada para obtenção de quantidade limitada de Fase
   public getItemsWithLimit = async (top: number = 100, isAscending = false) => {
     const result: IFaseItems[] = await sp.web.lists
-    .getByTitle(this._list)
-    .items.select(
-      'Id',
-      'Nome',
-      'Created',
-      'Modified',
-      'Complexo/Nome',
-      'Complexo'
-    )
-    .expand('Complexo')
-    .orderBy('Created', isAscending)
-    .get();
-  return mapGetItemsFase(result);
+      .getByTitle(this._list)
+      .items.select('Id', 'Nome', 'Created', 'Modified', 'Complexo/Nome', 'Complexo')
+      .expand('Complexo')
+      .orderBy('Created', isAscending)
+      .get();
+    return mapGetItemsFase(result);
   };
 
   // Rota utilizada para criar uma nova Fase

@@ -21,7 +21,6 @@ const RoutesApp = (props: IAppProps) => {
   const currentUserStateGlobal = useAppSelector((state) => state.stateObject.currentUser);
   const dispatch = useAppDispatch();
 
-
   React.useEffect(() => {
     if (!currentUserStateGlobal) {
       console.log('Apenas um console');
@@ -35,9 +34,8 @@ const RoutesApp = (props: IAppProps) => {
 
   React.useEffect(() => {
     const isCurrentUserAdmin = !!currentUserStateGlobal && currentUserStateGlobal?.Permission == GroupsPermissionString.Administrador;
-    dispatch(isItemAddValuePermission(isCurrentUserAdmin))
+    dispatch(isItemAddValuePermission(isCurrentUserAdmin));
   }, [currentUserStateGlobal]);
-
 
   return (
     <BrowserRouter>

@@ -12,5 +12,4 @@ export interface IComplexoItems {
   Corredor?: Array<ICorredor>;
 }
 
-
-export type IComplexoInput = Pick<IComplexoItems, 'Id' | 'Corredor'| 'Nome' >;
+export type IComplexoInput = Pick<IComplexoItems, 'Id' | 'Corredor' | 'Nome'>;

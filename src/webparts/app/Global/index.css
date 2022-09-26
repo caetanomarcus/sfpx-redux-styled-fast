@@ -1,20 +1,11 @@
-*,
-*::after,
-*::before {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-.shyHeader-67{
-    display: none;
+.shyHeader-67 {
+  display: none;
 }
 
 .ms-FocusZone {
-    display: none;
-    
+  display: none;
 }
 
 .spAppAndPropertyPanelContainer .sp-appBar {
-    display: none;
+  display: none;
 }

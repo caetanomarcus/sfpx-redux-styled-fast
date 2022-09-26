@@ -4,7 +4,6 @@ import { itemsAddCorredor } from '../../../dataflow/reducers';
 import { ICorredorItems } from '../interfaces/ICorredorItems';
 import { mapGetItemsCorredor } from '../repositories/Corredor';
 
-
 export class CorredorClassService {
   private _list: string;
   private _dispatch: IDispatch<IAnyAction>;
@@ -17,12 +16,7 @@ export class CorredorClassService {
   public getItemsAllCorredor = async (isAscending = false) => {
     const result: ICorredorItems[] = await sp.web.lists
       .getByTitle(this._list)
-      .items.select(
-        'Id',
-        'Nome',
-        'Created',
-        'Modified'
-      )
+      .items.select('Id', 'Nome', 'Created', 'Modified')
       .orderBy('Created', isAscending)
       .get();
     return mapGetItemsCorredor(result);
@@ -32,12 +26,7 @@ export class CorredorClassService {
   public getItemsWithLimit = async (top: number = 100, isAscending = false) => {
     const result: ICorredorItems[] = await sp.web.lists
       .getByTitle(this._list)
-      .items.select(
-        'Id',
-        'Nome',
-        'Created',
-        'Modified'
-      )
+      .items.select('Id', 'Nome', 'Created', 'Modified')
       .orderBy('Created', isAscending)
       .get();
     return mapGetItemsCorredor(result);
@@ -75,10 +64,10 @@ export class CorredorClassService {
     this.addCorredor(CorredorInput)
       .then((response) => {
         const Corredor: ICorredorItems = {
-          Id: response.Id,    
-          Nome: response.Nome,    
+          Id: response.Id,
+          Nome: response.Nome,
           Created: response.Created,
-          Modified: response.Modified
+          Modified: response.Modified,
         };
         this._dispatch(itemsAddCorredor(Corredor));
       })

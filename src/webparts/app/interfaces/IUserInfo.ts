@@ -12,7 +12,7 @@ export enum GroupsPermission {
 }
 
 export enum GroupsPermissionString {
-  Administrador = "Administrador",
-  Contribuidor = "Contribuidor",
-  Visitantes = "Visitantes",
+  Administrador = 'Administrador',
+  Contribuidor = 'Contribuidor',
+  Visitantes = 'Visitantes',
 }

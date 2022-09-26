@@ -4,7 +4,6 @@ import { itemsAddComplexo } from '../../../dataflow/reducers';
 import { IComplexoItems } from '../interfaces/IComplexoItems';
 import { mapGetItemsComplexo } from '../repositories/Complexo';
 
-
 export class ComplexoClassService {
   private _list: string;
   private _dispatch: IDispatch<IAnyAction>;
@@ -17,16 +16,7 @@ export class ComplexoClassService {
   public getItemsAllComplexo = async (isAscending = false) => {
     const result: IComplexoItems[] = await sp.web.lists
       .getByTitle(this._list)
-      .items.select(
-        'Id',
-        'Nome',
-        'Created',
-        'Modified',
-        'Corredor/Created',
-        'Corredor/Modified',
-        'Corredor/Id',
-        'Corredor'
-      )
+      .items.select('Id', 'Nome', 'Created', 'Modified', 'Corredor/Created', 'Corredor/Modified', 'Corredor/Id', 'Corredor')
       .expand('Corredor')
       .orderBy('Created', isAscending)
       .get();
@@ -36,21 +26,12 @@ export class ComplexoClassService {
   // Rota utilizada para obtenção de quantidade limitada de Complexos
   public getItemsWithLimit = async (top: number = 100, isAscending = false) => {
     const result: IComplexoItems[] = await sp.web.lists
-    .getByTitle(this._list)
-    .items.select(
-      'Id',
-      'Nome',
-      'Created',
-      'Modified',
-      'Corredor/Created',
-      'Corredor/Modified',
-      'Corredor/Id',
-      'Corredor'
-    )
-    .expand('Corredor')
-    .orderBy('Created', isAscending)
-    .get();
-  return mapGetItemsComplexo(result);
+      .getByTitle(this._list)
+      .items.select('Id', 'Nome', 'Created', 'Modified', 'Corredor/Created', 'Corredor/Modified', 'Corredor/Id', 'Corredor')
+      .expand('Corredor')
+      .orderBy('Created', isAscending)
+      .get();
+    return mapGetItemsComplexo(result);
   };
 
   // Rota utilizada para criar novo Complexo
