@@ -8,7 +8,27 @@ import * as S from './styles';
 
 const Informative: React.FC = () => {
   const newYears = new Date('2019.01.01');
-  const currentdDate = format(newYears, 'MM.DD.YYYY');
+  const currentdDate = format(newYears, 'mm.dd.yyyy');
+
+  const renderInformativeItem = () => {
+    return (
+      <S.WrapperInfo>
+      <S.SubWrapperInfo>
+        <S.IconWrapperInfo src={PictureBackground} />
+        <S.SubTextWrapperInfo>
+          <S.SubTitleInfo>Lorem simply dummy text of the print</S.SubTitleInfo>
+          <S.TextInfo>
+            It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The
+            point of
+          </S.TextInfo>
+          <S.TexDatetInfo>{`${currentdDate}`}</S.TexDatetInfo>
+        </S.SubTextWrapperInfo>
+      </S.SubWrapperInfo>
+      <S.Separator />
+    </S.WrapperInfo>
+    )
+  }
+
   return (
     <>
       <S.Container>
@@ -28,20 +48,12 @@ const Informative: React.FC = () => {
           </S.WrapperTitleInfo>
           <S.Separator />
 
-          <S.WrapperInfo>
-            <S.SubWrapperInfo>
-              <S.IconWrapperInfo src={PictureBackground} />
-              <S.SubTextWrapperInfo>
-                <S.SubTitleInfo>Lorem simply dummy text of the print</S.SubTitleInfo>
-                <S.TextInfo>
-                  It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The
-                  point of
-                </S.TextInfo>
-                <S.TexDatetInfo>{`${currentdDate}`}</S.TexDatetInfo>
-              </S.SubTextWrapperInfo>
-            </S.SubWrapperInfo>
-            <S.Separator />
-          </S.WrapperInfo>
+          {renderInformativeItem()}
+          {renderInformativeItem()}
+          {renderInformativeItem()}
+          {renderInformativeItem()}
+          {renderInformativeItem()}
+          {renderInformativeItem()}
         </S.SectionInformativesItems>
       </S.Container>
     </>

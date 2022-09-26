@@ -74,6 +74,7 @@ export const SectionInformativesItems = styled.div`
   height: 403px;
   margin-top: 43px;
   margin-bottom: 98px;
+  overflow-y: scroll;
 
   background: var(--branco) 0% 0% no-repeat padding-box;
   box-shadow: 0px 2px 4px #0000001a;

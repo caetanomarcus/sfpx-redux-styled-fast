@@ -10,7 +10,7 @@ export const mapGetItemsUserGroups = (groups: ISiteGroupInfo[], user?: ISiteUser
   itemsFilterGroups.forEach((item) => {
     userFilterFormated = {
       Id: user.Id,
-      LoginName: item.OwnerTitle,
+      LoginName: user.Title,
       Email: user.UserPrincipalName,
       Permission: item.Title,
       Title: user.Title,
